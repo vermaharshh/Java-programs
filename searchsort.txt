@@ -1,0 +1,77 @@
+binary search:-
+
+public static int binarySearch(int[] numbers, int target)
+{
+int index, left = 0, right = numbers.length - 1;
+while (left <= right)
+{
+index = (left + right) / 2;
+if (target == numbers[index])
+return index;
+if (target > numbers[index])
+left = index + 1;
+else
+right = index - 1;
+}
+return -1;
+}
+//-----------------------------------------------
+
+bubble sort:-
+
+public static int bubble(int sort_array[], int n)
+{
+int temp; int endPoint = N; boolean finished = false;
+while (finished == false)
+{
+finished = true; //assumption
+for (int inner = 0; inner < endPoint - 1; inner++)
+{
+if (sort_array[inner] > sort_array[inner + 1])
+{
+temp = sort_array[inner];
+sort_array[inner] = sort_array[inner + 1];
+sort_array[inner + 1] = temp;
+finished = false; // an exchange was made
+}
+}
+endPoint --;
+}
+return;
+}
+//-------------------------------------------------------
+
+selection sort
+
+public static void selectionSort(int[] numbers)
+{
+int min, temp;
+for (int ind = 0; ind < numbers.length-1; ind++)
+{
+min = index;
+for (int scan = ind+1; scan < numbers.length; scan++)
+if (numbers[scan] < numbers[min])
+min = scan;
+// swap the values
+temp = numbers[min];
+numbers[min] = numbers[ind];
+numbers[ind] = temp;
+}
+}
+//---------------------------------------------------
+
+insertion sort
+
+public static void insertionSort (int[] numbers)
+{
+for (int index = 1; index < numbers.length; index++)
+{
+int key = numbers[index]; int position = index;
+while (position > 0 && numbers[position-1] > key)
+{
+numbers[position] = numbers[position-1];
+position--;
+}
+numbers[position] = key;
+}
+}

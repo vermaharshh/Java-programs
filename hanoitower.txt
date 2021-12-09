@@ -1,0 +1,44 @@
+class Main {
+ 
+  public static void main(String[] args) {
+    hanoi(3, 'A', 'B', 'C');
+  }
+ 
+  private static void hanoi(int n, char rodFrom, char rodMiddle, char rodTo){
+ 
+    if(n==1){
+      System.out.println("Disk 1 moved from "+rodFrom+" to "+rodTo);
+      return;
+    }
+ 
+    //Move top n-1 disks from A to B using C as middle
+    hanoi(n-1,rodFrom,rodTo,rodMiddle);
+ 
+    //Move last disk from A to C
+    System.out.println("Disk "+n+" moved from "+rodFrom+" to "+rodTo);
+ 
+    //Move n-1 disks from B to C using A as middle
+    hanoi(n-1,rodMiddle,rodFrom,rodTo);
+ 
+  }
+}
+//------------------------------------------------------------------------------
+fibbonaci
+
+public static long fibonacci(int n)
+{
+if (n <= 1)
+return n;
+else
+return (fibonacci (n – 1) + fibonacci (n – 2);
+}
+A Fibonacci number is the sum of the previous two Fibonacci numbers. For 
+example, 1,2,3,5,8,13,21,34,55,89, … 
+int old = 1, new = 1, temp;
+for (int k=1; k<=n, k++)
+{
+System.out.println(new);
+temp = new;
+new = old + new;
+old = temp;
+}

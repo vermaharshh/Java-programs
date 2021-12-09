@@ -1,0 +1,167 @@
+// hashtables
+//------------------------------------------------
+hashtable definition:-
+
+public class Hashing {
+// Demonstration hash table. Assumes all keys are
+// positive integers. 
+// table codes: -1 = not yet used, -2 > = used but deleted 
+protected int tableSize, theTable[ ];
+protected static final int DEFAULT_SIZE= 11;
+protected static final int STEP_SIZE= 1;
+public Hashing(int size) // constructor { 
+tableSize = size; 
+theTable = new int[size];
+initialise(theTable);
+}
+public Hashing ( ) // constructor {
+tableSize = DEFAULT_SIZE;
+theTable = new int[DEFAULT_SIZE];
+initialise(theTable);
+} 
+private void initialise (int a[ ]) {
+for (int i = 0; i < a.length; i++) {
+a[i] = -1; // not yet used 
+}
+}
+} 
+// A possible hash function:
+private int hashFunction(String key) {
+return (Math.abs(key.hashCode()) % tableSize);
+}
+}
+//------------------------------------------------------
+addition code:-
+
+public void insert (int key)
+{
+boolean inserted = false;
+int tryPos = calculateCode (key);
+int tries = 1;
+while ( (!inserted) && (tries <= tableSize) )
+{
+if (theTable[tryPos] == key) // duplicate key
+{
+inserted = true;
+System.out.println(key + " key already there");
+}
+else if (theTable[tryPos] < 0) // empty spot
+{
+theTable[tryPos] = key;
+inserted = true;
+System.out.println("key " + key +
+" inserted at pos. " + tryPos);
+}
+else
+{
+tries++;
+tryPos++;
+if (tryPos == tableSize) // wrap around
+tryPos = 0;
+}
+}
+if (!inserted)
+{
+System.out.println("key " + key +
+" not inserted; table full.");
+}
+}
+//---------------------------------------------------
+retrieval:-
+
+public void find (int key)
+{
+boolean found = false;
+int tryPos = calculateCode(key);
+int tries = 1;
+while ( (!found) && (tries <= tableSize) &&
+(theTable[tryPos] != -1) )
+{
+if (theTable[tryPos] == key) // found it
+{
+System.out.println("key " + key +
+" found at position " + tryPos +
+" after “ + tries + " attempts");
+found = true;
+}
+else // not at this element
+{
+tries++;
+tryPos++;
+if (tryPos == tableSize)
+tryPos = 0;
+}
+}
+if (! found)
+{
+System.out.println("key " + String.valueOf(key) +
+" Key not found." );
+}
+}
+//----------------------------------------------------------
+deletion:-
+
+public void delete (int key)
+{
+boolean deleted = false;
+int tryPos = calculateCode(key);
+int tries = 1;
+while ( (!deleted) && (tries <= tableSize) &&
+(theTable[tryPos] != -1) )
+{
+if (theTable[tryPos] == key) // found it
+{
+theTable[tryPos] = -2;
+System.out.println("key " + key +
+" deleted from pos. " + tryPos +
+" after “ + tries + " attempts");
+deleted = true;
+}
+else // not at that element
+{
+tries++; 
+tryPos++;
+if (tryPos == tableSize)
+tryPos = 0;
+}
+}
+if (! deleted)
+{
+System.out.println("key " + key +
+" not deleted. Key not found." );
+}
+}
+//-------------------------------------------
+chaining hashtables:-
+
+class ChainingTable
+{
+LinkedList[] table;
+final int TABLESIZE;
+ChainingTable(int size)
+{
+TABLESIZE = size;
+table = new List[TABLESIZE];
+for (int i = 0; i < table.length; i++)
+{
+table[i] = new LinkedList();
+}
+}
+private int hashFunction(String key) {
+return (Math.abs(key.hashCode()) % TABLESIZE);
+}
+public void add(String data) {
+int code = hashFunction(data);
+table[code].add(data);
+}
+public String retrieve(String name) {
+int code = hashcode(name);
+return table[code].retrieve(name);
+}
+public boolean delete(String name) {
+int code = hashcode(name);
+return table[code].delete(name);
+}
+}
+
+

@@ -1,0 +1,74 @@
+adding data to middle or tail
+
+public void addToTail(int data)
+{
+ListNode insert = head;
+while (insert.next != null)
+insert = insert.next;
+ListNode newNode = new ListNode(data);
+newNode.next = insert.next;
+insert.next = newNode;
+}
+//------------------------------------------------------
+adding data in sorted order
+
+public void addInOrder(int data)
+{
+ListNode current = head;
+ListNode previous = null;
+ListNode newNode = new ListNode(data);
+while ((current != null) && (current.data < data))
+{
+previous = current;
+current = current.next;
+}
+
+if (current == head)
+{
+newNode.next = head;
+head = newNode;
+}
+else if (current == null)
+{
+previous.next = newNode;
+}
+else
+{
+previous.next = newNode;
+newNode.next = current;
+}
+}
+
+//-------------------------------------------------
+retrieving data
+
+public int retrieve(int key)
+{
+ListNode current = head;
+while (current != null)
+{
+if (current.data == key)
+return data;
+current = current.next;
+}
+return -1;
+}
+//--------------------------------------------------
+deleting data
+
+public boolean delete (int key)
+{
+ListNode current = head;
+ListNode previous = null;
+while (current != null)
+{
+if (current.data == key)
+{
+previous.next = current.next;
+return true;
+}
+previous = current;
+current = current.next;
+}
+return false;
+}

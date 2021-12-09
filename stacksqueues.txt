@@ -1,0 +1,410 @@
+A Stack ADT Specification
+
+public interface StackMethods
+{
+public abstract void push(Object item) throws
+StackOverflowException;
+public abstract void pop() throws
+StackUnderflowException;
+public abstract Object topItem() throws
+StackUnderflowException;
+public abstract boolean isEmpty();
+public abstract boolean isFull();
+}
+class StackOverflowException extends Exception
+{
+public StackOverflowException(){;}
+}
+class StackUnderflowException extends Exception
+{
+public StackUnderflowException(){;}
+}
+
+//-------------------------------------------------------------
+
+stack using linkedlist
+
+class ListNode
+{
+Object data;
+ListNode next;
+public ListNode(Object item)
+{
+data = item;
+next = null;
+}
+}
+public class Stack implements StackMethods
+{
+public ListNode theStack;
+public Stack()
+{
+theStack = null;
+}
+public void push(Object item) throws
+StackOverflowException
+{
+ListNode temp = theStack;
+theStack = new ListNode (item); 
+theStack.next = temp;
+}
+public void pop() throws StackUnderflowException
+{
+if (theStack == null)
+throw new StackUnderflowException();
+else
+theStack = theStack.next;
+}
+public Object topItem() throws StackUnderflowException
+{
+if (theStack == null)
+throw new StackUnderflowException();
+else
+return theStack.data;
+}
+public boolean isEmpty()
+{
+if (theStack == null)
+return true;
+else
+return false;
+}
+public boolean isFull()
+{
+return false;
+}
+}
+
+//------------------------------------------------------------
+
+Bracket Checker
+
+public void processFile(FileReader in) throws IOException
+{
+char inChar = ' ';
+int currentLine = 1;
+boolean insideQuotes = false;
+try
+{
+while(in.ready())
+{
+inChar = (char) in.read();
+if (inChar == '\n')
+currentLine++;
+if (inChar == '"')
+{
+if (insideQuotes == true)
+insideQuotes = false;
+else
+insideQuotes = true;
+}
+else if (isPushChar(inChar) && !insideQuotes)
+{
+checkingStack.push(new BracketObject(inChar,
+currentLine));
+}
+else if (isPopChar(inChar) && !insideQuotes)
+{
+BracketObject theTop = (BracketObject)
+checkingStack.topItem();
+if (theTop.getChar() == inverse(inChar))
+checkingStack.pop();
+else
+{
+System.out.println("Error with character " +
+inChar + " on line " + currentLine);
+System.out.println("Does not balance with " +
+theTop.getChar() + " at " + theTop.atLine()));
+return;
+}
+else if (isPushChar(inChar) && !insideQuotes)
+{
+checkingStack.push(new BracketObject(inChar,
+currentLine));
+}
+else if (isPopChar(inChar) && !insideQuotes)
+{
+BracketObject theTop = (BracketObject)
+checkingStack.topItem();
+if (theTop.getChar() == inverse(inChar))
+checkingStack.pop();
+else
+{
+System.out.println("Error with character " +
+inChar + " on line " + currentLine);
+System.out.println("Does not balance with " +
+theTop.getChar() + " at " + theTop.atLine()));
+return;
+}
+} 
+}
+if (allFinished())
+{
+System.out.println("brackets all correct");
+}
+else
+{
+while(!allFinished())
+{
+BracketObject theTop = (BracketObject)
+checkingStack.topItem();
+System.out.println(theTop.getChar()) +
+" on line " + theTop.atLine()) +
+" not closed");
+checkingStack.pop();
+}
+} 
+}
+catch(StackOverflowException e)
+{
+System.err.println("Stack overflow");
+return;
+}
+catch(StackUnderflowException e)
+{
+System.out.println("No match found for " + inchar);
+return;
+}
+}
+
+//-------------------------------------------------------------------
+
+ queues
+
+//queue implementation by linkedlist
+
+interface QueueMethods
+{
+public void enqueue(Object item) throws
+QueueOverflowException;
+public void dequeue() throws QueueUnderflowException;
+public Object peek() throws QueueUnderflowException;
+public boolean isEmpty();
+public boolean isFull ();
+}
+class QueueOverflowException extends Exception
+{
+public QueueOverflowException(){;}
+}
+class QueueUnderflowException extends Exception
+{
+public QueueUnderflowException(){;}
+}
+public class Queue implements QueueMethods
+{
+public ListNode head, tail;
+public Queue()
+{
+head = null;
+tail = null;
+}
+public boolean isEmpty()
+{
+return ((head == null) ? true: false);
+}
+public boolean isFull()
+{
+return false;
+}
+public void enqueue (Object item) throws
+QueueOverflowException
+{
+ListNode temp = new ListNode (item); 
+if (tail == null)
+{
+tail = temp;
+head = temp;
+}
+else
+{
+tail.next = temp;
+tail = temp;
+}
+} 
+public void dequeue() throws QueueUnderflowException
+{
+if (head == null)
+throw new QueueUnderflowException();
+else
+head = head.next;
+if (head == null)
+tail = null;
+}
+public Object peek() throws QueueUnderflowException
+{
+if (head == null)
+throw new QueueUnderflowException();
+else
+return head.data;
+}
+}
+//----------------------------------------------------------------
+
+queue driver
+
+public class QueueDriver
+{
+public static void main(String [] args) throws Exception
+{
+Queue myQueue = new Queue();
+for (int i = 1; i <= 5; i++) 
+{
+System.out.println("Adding integer : " + i +
+" to the queue”);
+myQueue.enqueue(new Integer(i));
+}
+System.out.println("Head of the queue is : " +
+((Integer)myQueue.peek()).intValue());
+
+System.out.println("Removing 3 elements from queue");
+for (int i = 0; i < 3; i++)
+myQueue.dequeue();
+System.out.println("Head of the queue is : " +
+((Integer)myQueue.peek()).intValue());
+}
+}
+
+//-----------------------------------------------------------------
+
+priority queue
+
+public interface PriorityQueueMethods
+{
+public abstract void insert(Comparable item) throws
+PQOverflowException;
+public abstract void removeTop() throws
+PQUnderflowException;
+public abstract Object peek() throws PQUnderflowException;
+public abstract boolean purgePQ();
+public abstract boolean isEmpty();
+public abstract boolean isFull();
+}
+class PQOverflowException extends Exception
+{
+public PQOverflowException(){;}
+}
+class PQUnderflowException extends Exception
+{
+public PQUnderflowException(){;}
+}
+
+//---------------------------------------------------------------------
+Array using priority queue
+
+public class PriorityQueue implements PriorityQueueMethods
+{
+public Object thePQueue[];
+private final int MAXSIZE = 100;
+private int nextPos;
+public PriorityQueue()
+{
+thePQueue = new Object[MAXSIZE];
+nextPos = 0;
+}
+public void insert(Object item) throws PQOverflowException
+{
+if (nextPos < MAXSIZE)
+{
+theStack[nextPos] = item;
+nextPos++;
+}
+else
+throw new PQOverflowException();
+}
+public void removeTop() throws PQUnderflowException
+{
+if (nextPos > 0)
+nextPos--;
+else
+throw new PQUnderflowException();
+}
+public Object peek() throws PQUnderflowException
+{
+if (nextPos > 0)
+return theStack [nextPos - 1];
+else
+throw new PQUnderflowException();
+}
+public boolean isEmpty()
+{
+if (nextPos == 0)
+return true;
+else
+return false;
+}
+public boolean isFull()
+{
+if (nextPos == MAXSIZE)
+return true;
+else
+return false;
+} 
+}
+
+//------------------------------------------------
+
+dequeue
+
+class DLListNode
+{
+int data;
+DLListNode prev;
+DLListNode next;
+public DLListNode(int data)
+{
+this.data = data;
+this.prev = null;
+this.next = null;
+}
+}
+[ DLList class: the double link list class is shown in Module 3]
+DATA STRUCTURE USING JAVA
+Double Ended Queue [Deque] Implementation (2)
+public class Deque extends DLList {
+private DLListNode front;
+private DLListNode back;
+public Deque() {
+/* Creates the Deque */
+front = back = new DLListNode();
+}
+public void addFront(int data){
+addToHead(data);
+}
+public void addBack(int data){
+addToTail(data);
+}
+DATA STRUCTURE USING JAVA
+Double Ended Queue [Deque] Implementation (3) 
+public int removeFront() throws UnderflowException {
+return deleteHead( );
+}
+public int removeBack() throws UnderflowException {
+return deleteTail( );
+}
+public int getFront() {
+return getHead();
+}
+public int getBack() {
+return getTail();
+}
+DATA STRUCTURE USING JAVA
+Double Ended Queue [Deque] Implementation (4)
+public static void main(String[] args) 
+throws UnderflowException {
+Deque q = new Deque();
+System.out.println("\n\n a");
+for(int i=5; i< 20; i++){
+q.addFront(i);
+System.out.print(" " + q.getFront() );
+}
+System.out.println("\n\n b");
+for(int j = 100; j > 80; j=j-2){
+q.addBack(j);
+System.out.print( " " + q.getBack() );
+}
+System.out.println("\n\n c");
+while( !(q.isEmpty()) ) {
+System.out.print(" " + q.removeBack() ) ;
+}
+} // End of main
+} // end of class Dequ
