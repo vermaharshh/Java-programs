@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class binarysearchtrees {
     public static void main(String[] args) {
         //System.out.println("This is a binary search program");
-        Scanner scanner = new Scanner(System.in);
         BinaryTree bt = new BinaryTree();
         bt.root= new Node(100);
         bt.root.left= new Node(90);
@@ -13,23 +12,68 @@ public class binarysearchtrees {
         bt.root.left.left= new Node(80);
         bt.root.left.right= new Node(95);
 
+
         if (bt.isBST(bt.root)) {
             System.out.println("The given tree is a Binary Search tree");
-            bt.preorder(bt.root);
-            bt.insert(bt.root, 115);
-            System.out.println("");
-            bt.preorder(bt.root);
-            System.out.print("\nEnter the number you want to search: ");
-            int SearchingNumber;
-            SearchingNumber = scanner.nextInt();
-            int index = bt.searchBt(bt.root, SearchingNumber);
-            if (index == -1)
-                System.out.println("The element doesnt exist!");
-            else
-                System.out.println("The element lies in index " + index);
+            driver(bt);
         }
         else
             System.out.println("The tree is not a Binary Search tree");
+    }
+
+    static int driver(BinaryTree bt) {
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+
+            System.out.println("\nEnter which choice you want to choose: ");
+            System.out.println("1) Insert");
+            System.out.println("2) Delete");
+            System.out.println("3) Print pre order");
+            System.out.println("4) Show minimum");
+            System.out.println("5) Search binary Search tree");
+            System.out.println("6) Exit");
+            System.out.print("=> ");
+            int choice = scanner.nextInt();
+
+            if (choice == 1) {
+                System.out.print("Enter the number to insert: ");
+                int data = scanner.nextInt();
+                bt.insert(bt.root, data);
+                System.out.println("Insertion done");
+
+
+            } else if (choice == 2) {
+                System.out.print("Enter the element to delete: ");
+                int data = scanner.nextInt();
+                bt.delete(bt.root, data);
+                System.out.println("Element delete");
+
+            } else if (choice == 3) {
+                bt.preorder(bt.root);
+                System.out.println();
+
+            } else if (choice == 4) {
+                int minimumValue = bt.minValue(bt.root);
+                System.out.println("The Least value is: " + minimumValue);
+
+            } else if (choice == 5) {
+                System.out.print("\nEnter the number you want to search: ");
+                int SearchingNumber = scanner.nextInt();
+                int index = bt.searchBt(bt.root, SearchingNumber);
+                if (index == -1)
+                    System.out.println("The element doesnt exist!");
+                else
+                    System.out.println("The element lies in index " + index);
+
+            } else if (choice == 6) {
+                return 0;
+            }
+            else {
+                System.out.println("Please enter a valid option");
+            }
+        }
     }
 }
 
@@ -148,7 +192,10 @@ class BinaryTree {
             }
 
             node.data = minValue(node);
+            node.right = delete(node.right, node.data);
         }
+
+        return node;
     }
 
     int minValue(Node node) {
